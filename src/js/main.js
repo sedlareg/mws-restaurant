@@ -30,15 +30,15 @@ export const initHome = () => {
  */
 export const loadGoogleApi = () => {
     const gml = new GoogleMapsLoader();
-    gml.KEY = Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY";
-    gml.LIBRARIES = ['places'];
-    gml.load(
-        function (map) {
+    gml.load({
+        key: Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY",
+        libraries: ['places'],
+        mapOptions: Config.GOOGLE_MAPS_OPTIONS
+    })
+        .then(map => {
             window.map =map;
             updateRestaurants();
-        },
-        Config.GOOGLE_MAPS_OPTIONS
-    );
+        });
 };
 
 /**

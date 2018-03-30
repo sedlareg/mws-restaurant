@@ -2,6 +2,7 @@ import Config from "../../config";
 import DBHelper from './dbhelper';
 import GoogleMapsLoader from './google-maps-loader';
 import PictureHelper from "./picturehelper";
+import {updateRestaurants} from "./main";
 
 let restaurant;
 
@@ -14,16 +15,16 @@ export const initDetails = () => {
          * Initialize Google map, called from HTML.
          */
         const gml = new GoogleMapsLoader();
-        gml.KEY = Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY";
-        gml.LIBRARIES = ['places'];
-        gml.load(
-            (map) => {
+        gml.load({
+            key: Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY",
+            libraries: ['places'],
+            mapOptions: Config.GOOGLE_MAPS_OPTIONS
+        })
+            .then(map => {
                 window.map =map;
                 fillBreadcrumb();
                 DBHelper.mapMarkerForRestaurant(self.restaurant, window.map);
-            },
-            Config.GOOGLE_MAPS_OPTIONS
-        );
+            });
     });
 };
 

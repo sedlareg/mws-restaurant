@@ -27,17 +27,15 @@ export default class GoogleMapsLoader {
         this.isAsync = async;
         this.isDefer = defer;
         this.google = null;
-        this.loading = false;
-        this.callbacks = [];
         this.scriptElement = null;
-        this.onLoadEvents = [];
+        this.loading = false;
     }
 
-    static get REGION() {
+    get REGION() {
         return this.region;
     }
 
-    static set REGION(region) {
+    set REGION(region) {
         this.region = region;
     }
 
@@ -81,43 +79,26 @@ export default class GoogleMapsLoader {
         this.language = language;
     }
 
-    /**
-     * @description Loads Google Map Api
-     * @param {function} onLoadCallback - callback after loading
-     * @param {object} mapOptions - map settings
-     * @param {string} mapId - id of div where maps is appended
-     * @returns {void}
-     */
-    load(onLoadCallback, mapOptions, mapId) {
-        this.mapOptions = mapOptions || this.mapOptions;
-        this.mapId = mapId || this.mapId;
+    load(options) {
+        Object.entries(options).forEach(
+            ([key, value]) => this[key] = value
+        );
 
-        if (this.google === null) {
-            if (this.loading === true) {
-                if (onLoadCallback) {
-                    this.callbacks.push(onLoadCallback);
+        let that = this;
+        return new Promise(
+            function (resolve, reject) {
+                if (that.google === null) {
+                    if(that.loading === false) {
+                        that.loading = true;
+                        that.appendLoaderToBody();
+                        window[that.initializator] = function () {
+                            resolve(that.ready());
+                        };
+                    }else{
+                        reject('error');
+                    }
                 }
-            } else {
-                this.loading = true;
-                let that = this;
-                window[this.initializator] = function () {
-                    that.ready(onLoadCallback);
-                };
-
-                this.appendLoaderToBody();
-            }
-        } else if (onLoadCallback) {
-            onLoadCallback(this.google);
-        }
-    }
-
-    /**
-     * @description onLoad-Handler
-     * @param {function} callback - callback after loading
-     * @returns {void}
-     */
-    onLoad(callback) {
-        this.onLoadEvents.push(callback);
+            });
     }
 
     /**
@@ -162,31 +143,15 @@ export default class GoogleMapsLoader {
 
     /**
      * @description onReady-Handler
-     * @param {function} callback - fires when map is appended
-     * @returns {void}
+     * @returns {Map}
      */
-    ready(callback) {
+    ready() {
         this.loading = false;
-
         if (this.google === null) {
             this.google = window.google;
         }
 
-        let map = this.createMap();
-
-        for (let i = 0; i < this.onLoadEvents.length; i++) {
-            this.onLoadEvents[i](map);
-        }
-
-        if (callback) {
-            callback(map);
-        }
-
-        for (let i = 0; i < this.callbacks.length; i++) {
-            this.callbacks[i](map);
-        }
-
-        this.callbacks = [];
+        return this.createMap();
     }
 
     /**
