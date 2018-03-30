@@ -80,9 +80,12 @@ export default class GoogleMapsLoader {
     }
 
     load(options) {
-        Object.entries(options).forEach(
-            ([key, value]) => this[key] = value
-        );
+        // Object.entries(options).forEach(
+        //     ([key, value]) => this[key] = value
+        // );
+        for(let key of Object.keys(options)){
+            this[key] = options[key];
+        }
 
         let that = this;
         return new Promise(
