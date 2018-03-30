@@ -1,5 +1,3 @@
-import DBHelper from "./dbhelper";
-
 /**
  * Common helper to create picture elements for page
  */
@@ -46,7 +44,7 @@ export default class PictureHelper {
 
         const image = document.createElement('img');
         image.className = this.imgClass;
-        image.src = DBHelper.imageUrlForRestaurant(this.restaurant);
+        image.src = `/${this.imgSourcePath}/${this.restaurant.photograph}`;
         image.alt = this.restaurant.name;
         picture.append(image);
 

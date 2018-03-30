@@ -1,5 +1,5 @@
 import './scss/main.scss';
-import { initHome } from './js/main';
+import { initHome } from './js/Main';
 
 initHome();
 /*
