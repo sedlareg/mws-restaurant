@@ -4,26 +4,50 @@ import DBHelper from "./dbhelper";
  * Common helper to create picture elements for page
  */
 export default class PictureHelper {
+
+    /**
+     *
+     * @param {object} restaurant
+     * @param {string} imgSourcePath
+     * @param {string} imgClass
+     */
+    constructor(restaurant, imgSourcePath, imgClass) {
+        this.restaurant = restaurant;
+        this.imgSourcePath = imgSourcePath;
+        this.imgClass = imgClass;
+    }
+
     /**
      * @description Builds picture element
-     * @param {object} restaurant
      * @returns {HTMLElement}
      */
-    static getPictureElement(restaurant) {
+    getPictureElement() {
         const picture = document.createElement('picture');
         picture.className = 'restaurant-img';
-        const imgName= restaurant.photograph.split('.').shift();
+        const imgName= this.restaurant.photograph.split('.').shift();
+        const sources = [PictureHelper.BREAKPOINT_LARGE, PictureHelper.BREAKPOINT_MEDIUM, null];
 
-        picture.append(PictureHelper.getSourceForPicture('large', imgName, 'webp'));
-        picture.append(PictureHelper.getSourceForPicture('large', imgName, 'jpg'));
-        picture.append(PictureHelper.getSourceForPicture('medium', imgName, 'webp'));
-        picture.append(PictureHelper.getSourceForPicture('medium', imgName, 'jpg'));
-        picture.append(PictureHelper.getSourceForPicture(null, imgName, 'webp'));
+        for(let i=0; i < sources.length; i++) {
+            if(sources[i] !== null){
+                picture.append(
+                    this.getSourceForPicture(
+                        sources[i],
+                        imgName,
+                        PictureHelper.IMAGE_TYPE_JPG
+                    ));
+            }
+            picture.append(
+                this.getSourceForPicture(
+                    sources[i],
+                    imgName,
+                    PictureHelper.IMAGE_TYPE_WEBP
+                ));
+        }
 
         const image = document.createElement('img');
-        image.className = 'restaurant-img';
-        image.src = DBHelper.imageUrlForRestaurant(restaurant);
-        image.alt = restaurant.name;
+        image.className = this.imgClass;
+        image.src = DBHelper.imageUrlForRestaurant(this.restaurant);
+        image.alt = this.restaurant.name;
         picture.append(image);
 
         return picture;
@@ -36,15 +60,15 @@ export default class PictureHelper {
      * @param {string} type
      * @returns {HTMLElement}
      */
-    static getSourceForPicture(breakpoint, imgName, type) {
+    getSourceForPicture(breakpoint, imgName, type) {
         let minWidth,
             imgSuffix = `-${breakpoint}`;
         switch (breakpoint){
-            case 'large':
-                minWidth = 800;
+            case PictureHelper.BREAKPOINT_LARGE:
+                minWidth = PictureHelper.BREAKPOINT_LARGE_WIDTH;
                 break;
-            case 'medium':
-                minWidth = 460;
+            case PictureHelper.BREAKPOINT_MEDIUM:
+                minWidth = PictureHelper.BREAKPOINT_MEDIUM_WIDTH;
                 break;
             default:
                 imgSuffix = '';
@@ -52,10 +76,20 @@ export default class PictureHelper {
 
         const source = document.createElement('source');
         source.media = breakpoint ? `(min-width: ${minWidth}px)` : '';
-        source.srcset = `/img/${imgName}${imgSuffix}.${type}`;
-        source.type =  type === 'jpg' ? `image/jpeg` : `image/${type}`;
+        source.srcset = `/${this.imgSourcePath}/${imgName}${imgSuffix}.${type}`;
+        source.type =  type === PictureHelper.IMAGE_TYPE_JPG
+            ? PictureHelper.MIME_TYPE_JPG
+            : `image/${type}`;
 
         return source;
     };
-
 }
+
+PictureHelper.BREAKPOINT_MEDIUM = 'medium';
+PictureHelper.BREAKPOINT_MEDIUM_WIDTH = 460;
+PictureHelper.BREAKPOINT_LARGE = 'large';
+PictureHelper.BREAKPOINT_LARGE_WIDTH = 800;
+PictureHelper.IMAGE_TYPE_JPG = 'jpg';
+PictureHelper.IMAGE_TYPE_WEBP = 'webp';
+PictureHelper.MIME_TYPE_JPG = 'image/jpeg';
+PictureHelper.MIME_TYPE_WEBP = 'image/webp';

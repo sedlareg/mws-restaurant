@@ -177,7 +177,8 @@ export const createRestaurantHTML = (restaurant) => {
     const li = document.createElement('li');
     li.className = 'flex-list-item';
 
-    li.append(PictureHelper.getPictureElement(restaurant));
+    const picture = new PictureHelper(restaurant, 'img', 'restaurant-img');
+    li.append(picture.getPictureElement(restaurant));
 
     const container = document.createElement('div');
     li.append(container);

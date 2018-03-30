@@ -2,7 +2,6 @@ import Config from "../../config";
 import DBHelper from './dbhelper';
 import GoogleMapsLoader from './google-maps-loader';
 import PictureHelper from "./picturehelper";
-import {updateRestaurants} from "./main";
 
 let restaurant;
 
@@ -64,7 +63,8 @@ export const fillRestaurantHTML = (restaurant = self.restaurant) => {
     address.innerHTML = restaurant.address;
 
     const targetPicture = document.getElementById('restaurant-img');
-    const newPicture = PictureHelper.getPictureElement(restaurant);
+    const picture = new PictureHelper(restaurant, 'img', 'restaurant-img');
+    const newPicture = picture.getPictureElement(restaurant);
     targetPicture.replaceWith(newPicture);
 
     const cuisine = document.getElementById('restaurant-cuisine');
