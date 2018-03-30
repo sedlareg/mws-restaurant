@@ -12,15 +12,23 @@ window.markers = [];
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
-export function initHome() {
+export const initHome = () => {
+    const cSelect = document.getElementById('cuisines-select');
+    const nSelect = document.getElementById('neighborhoods-select');
+    cSelect.onchange=updateRestaurants;
+    nSelect.onchange=updateRestaurants;
+
     document.addEventListener('DOMContentLoaded', (event) => {
+        loadGoogleApi();
         fetchNeighborhoods();
         fetchCuisines();
     });
+};
 
-    /**
-     * Initialize Google map, called from HTML.
-     */
+/**
+ * Initialize Google map, called from HTML.
+ */
+export const loadGoogleApi = () => {
     const gml = new GoogleMapsLoader();
     gml.KEY = Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY";
     gml.LIBRARIES = ['places'];
@@ -31,7 +39,7 @@ export function initHome() {
         },
         Config.GOOGLE_MAPS_OPTIONS
     );
-}
+};
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -91,7 +99,7 @@ export const fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Update page and map for current restaurants.
  */
-window.updateRestaurants = () => {
+export const updateRestaurants = () => {
     const cSelect = document.getElementById('cuisines-select');
     const nSelect = document.getElementById('neighborhoods-select');
 
@@ -114,7 +122,7 @@ window.updateRestaurants = () => {
 /**
  * Clear current restaurants, their HTML and remove their map markers.
  */
-window.resetRestaurants = (restaurants) => {
+export const resetRestaurants = (restaurants) => {
     // Remove all restaurants
     self.restaurants = [];
     const ul = document.getElementById('restaurants-list');

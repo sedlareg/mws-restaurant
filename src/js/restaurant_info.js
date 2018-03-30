@@ -5,7 +5,7 @@ import PictureHelper from "./picturehelper";
 
 let restaurant;
 
-export function initDetails() {
+export const initDetails = () => {
     fetchRestaurantFromURL((error, restaurant) => {
         if (error) { // Got an error!
             console.error(error);
@@ -17,7 +17,7 @@ export function initDetails() {
         gml.KEY = Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY";
         gml.LIBRARIES = ['places'];
         gml.load(
-            function (map) {
+            (map) => {
                 window.map =map;
                 fillBreadcrumb();
                 DBHelper.mapMarkerForRestaurant(self.restaurant, window.map);
@@ -25,7 +25,7 @@ export function initDetails() {
             Config.GOOGLE_MAPS_OPTIONS
         );
     });
-}
+};
 
 /**
  * Get current restaurant from page URL.
