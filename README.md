@@ -22,7 +22,7 @@ npm install
 touch config.js
 ```
 Example:
-```
+```javascript
 export default class Config {
     static get GOOGLE_MAPS_API_KEY() {
         return 'YOUR_GOOGLE_MAP_API_KEY';
@@ -46,8 +46,6 @@ export default class Config {
 ```
 **Development Mode**
 ```bash
-./local_server.sh // will start a local python server on port 8000
-or
 npm run start:dev
 ```
 
