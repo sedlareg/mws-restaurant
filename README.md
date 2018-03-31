@@ -1,6 +1,6 @@
 # Mobile Web Specialist Certification Course
+
 ---
-#### _Three Stage Course Material Project - Restaurant Reviews_
 
 ## Project Overview: Stage 1
 
@@ -10,14 +10,15 @@ For the **Restaurant Reviews** projects, you will incrementally convert a static
 
 You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
 
-### Getting Started
+## Getting Started
 
-**Install all dependencies**
+### Install all dependencies
 ```bash
 npm install
 ```
 
-**Create a config.js file on the root path of your project for the Google-Maps Configuration**
+### Configuration
+Create a config.js file on the root path of your project for the Google-Maps Configuration**
 ```bash
 touch config.js
 ```
@@ -29,7 +30,7 @@ export default class Config {
     };
 
     static get DATA_STORE() {
-        return 'http://localhost:8000/data/restaurants.json';
+        return '/data/restaurants.json';
     };
 
     static get GOOGLE_MAPS_OPTIONS() {
@@ -44,12 +45,19 @@ export default class Config {
     }
 };
 ```
-**Development Mode**
+### Development Mode
+
+#### webpack-dev-server
 ```bash
 npm run start:dev
 ```
 
-**Deploy project**
+#### python http.server
+```bash
+./local_server.sh
+```
+
+### Deploy project
 ```bash
 npm run build:prod
 ```
