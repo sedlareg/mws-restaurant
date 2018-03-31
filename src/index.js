@@ -2,6 +2,7 @@ import './scss/main.scss';
 import { initHome } from './js/Main';
 
 initHome();
+
 /*
 Register the service worker
 */

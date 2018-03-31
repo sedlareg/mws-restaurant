@@ -17,7 +17,6 @@ export default class Restaurant {
                     resolve(that.restaurant);
                 }
                 const id = that.getParameterByName('id');
-                console.log('getParameterByName', id);
                 if (!id) { // no id found in URL
                     error = 'No restaurant id in URL';
                     reject(error);

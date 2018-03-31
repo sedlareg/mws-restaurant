@@ -9,17 +9,17 @@ export default class DBHelper {
      * Change this to restaurants.json file location on your server.
      */
     static get DATABASE_URL() {
-        return Config.DATA_STORE || 'http://localhost:8000/data/restaurants.json';
+        return Config.DATA_STORE || '/data/restaurants.json';
     }
 
     /**
      * Fetch all restaurants.
      */
-    static fetchRestaurants(callback) {
+    static fetchRestaurants() {
         return fetch(DBHelper.DATABASE_URL)
             .then(response => response.json())
             .then(json => json.restaurants)
-            .catch(error => callback(error,null));
+            .catch(error => console.error(error));
     }
 
     /**
