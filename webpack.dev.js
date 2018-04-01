@@ -6,9 +6,14 @@ module.exports = merge(
     {
         watch: false,
         devServer: {
-            inline: true,
+            // inline: true,
             contentBase: 'src',
-            port: 8000
+            port: 8887,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET",
+                "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+            }
         },
     }
 );

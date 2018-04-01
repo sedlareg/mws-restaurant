@@ -12,15 +12,28 @@ export default class DBHelper {
         return Config.DATA_STORE || '/data/restaurants.json';
     }
 
+    static get RESTAURANTS(){
+        return this.restaurants;
+    }
+
+    static set RESTAURANTS(restaurants){
+        this.restaurants = restaurants;
+    }
+
     /**
      * Fetch all restaurants.
      */
     static fetchRestaurants() {
-        return fetch(DBHelper.DATABASE_URL)
-            .then(response => response.json())
-            .catch(error => console.error(error))
-            .then(json => json.restaurants)
-            .catch(error => console.error(error));
+        return this.RESTAURANTS
+            ? new Promise(resolve => resolve(this.RESTAURANTS))
+            : fetch(DBHelper.DATABASE_URL)
+                .then(response => response.json())
+                .catch(error => console.error(error))
+                .then(json => {
+                    this.RESTAURANTS = json.restaurants;
+                    return json.restaurants
+                })
+                .catch(error => console.error(error));
     }
 
     /**
@@ -43,5 +56,4 @@ export default class DBHelper {
             }
         );
     }
-
 }

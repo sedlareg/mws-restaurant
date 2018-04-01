@@ -1,12 +1,9 @@
-import DBHelper from "./DbHelper";
-
 export default class Cuisines {
     /**
      * Fetch all restaurants
      */
-    fetchAll() {
-        DBHelper.fetchRestaurants()
-            .then(this.filterUniqueCuisines)
+    fetchAll(restaurants) {
+        this.filterUniqueCuisines(restaurants)
             .catch(this.showError)
             .then(this.fillCuisinesHTML);
     }

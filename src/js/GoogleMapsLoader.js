@@ -92,10 +92,13 @@ export default class GoogleMapsLoader {
                         that.loading = true;
                         that.appendLoaderToBody();
                         window[that.initializator] = function () {
+                            if(window.google === null){
+                                throw new Error('error loading google maps')
+                            }
                             resolve(that.ready());
                         };
                     }else{
-                        reject('error');
+                        reject('error loading google maps');
                     }
                 }
             });

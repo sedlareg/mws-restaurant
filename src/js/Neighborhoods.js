@@ -1,12 +1,9 @@
-import DBHelper from "./DbHelper";
-
 export default class Neighborhoods {
     /**
      * Fetch all restaurants
      */
-    fetchAll() {
-        DBHelper.fetchRestaurants()
-            .then(this.filterUniqueNeighborhoods)
+    fetchAll(restaurants) {
+        this.filterUniqueNeighborhoods(restaurants)
             .catch(this.showError)
             .then(this.fillNeighborhoodsHTML);
     }
