@@ -23,14 +23,19 @@ export default class Restaurant {
                 } else {
                     DBHelper.fetchRestaurants()
                         .then(restaurants => that.findById(restaurants, id))
+                        .catch(that.showError)
                         .then(restaurant => {
                             that.fillRestaurantHTML(restaurant);
                             resolve(restaurant)
                         })
-                        .catch(error => console.error(error));
+                        .catch(that.showError);
                 }
             }
         );
+    }
+
+    showError(error) {
+        console.error(error);
     }
 
     getParameterByName(name, url) {

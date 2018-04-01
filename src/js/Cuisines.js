@@ -6,8 +6,13 @@ export default class Cuisines {
      */
     fetchAll() {
         DBHelper.fetchRestaurants()
-            .then(restaurants => this.filterUniqueCuisines(restaurants))
-            .then(cuisines => this.fillCuisinesHTML(cuisines));
+            .then(this.filterUniqueCuisines)
+            .catch(this.showError)
+            .then(this.fillCuisinesHTML);
+    }
+
+    showError(error) {
+        console.error(error);
     }
 
     /**

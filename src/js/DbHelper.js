@@ -18,6 +18,7 @@ export default class DBHelper {
     static fetchRestaurants() {
         return fetch(DBHelper.DATABASE_URL)
             .then(response => response.json())
+            .catch(error => console.error(error))
             .then(json => json.restaurants)
             .catch(error => console.error(error));
     }

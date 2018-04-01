@@ -6,8 +6,13 @@ export default class Neighborhoods {
      */
     fetchAll() {
         DBHelper.fetchRestaurants()
-            .then(restaurants => this.filterUniqueNeighborhoods(restaurants))
-            .then(neighborhoods => this.fillNeighborhoodsHTML(neighborhoods));
+            .then(this.filterUniqueNeighborhoods)
+            .catch(this.showError)
+            .then(this.fillNeighborhoodsHTML);
+    }
+
+    showError(error) {
+        console.error(error);
     }
 
     /**

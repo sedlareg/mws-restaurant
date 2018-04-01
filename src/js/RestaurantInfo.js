@@ -6,7 +6,7 @@ import Restaurant from "./Restaurant";
 export const initDetails = () => {
     const restaurant = new Restaurant();
     restaurant.getFromUrl()
-        .then(restaurant => loadGoogleApi(restaurant))
+        .then(loadGoogleApi)
         .catch(error => console.error(error));
 };
 
@@ -24,7 +24,8 @@ export const loadGoogleApi = (restaurant) => {
             window.map =map;
             fillBreadcrumb(restaurant);
             DBHelper.mapMarkerForRestaurant(restaurant, window.map);
-        });
+        })
+        .catch(error => console.error(error));
 };
 
 /**
