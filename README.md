@@ -1,6 +1,6 @@
 # Mobile Web Specialist Certification Course
+
 ---
-#### _Three Stage Course Material Project - Restaurant Reviews_
 
 ## Project Overview: Stage 1
 
@@ -10,26 +10,27 @@ For the **Restaurant Reviews** projects, you will incrementally convert a static
 
 You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
 
-### Getting Started
+## Getting Started
 
-**Install all dependencies**
+### Install all dependencies
 ```bash
 npm install
 ```
 
-**Create a config.js file on the root path of your project for the Google-Maps Configuration**
+### Configuration
+Create a config.js file on the root path of your project for the Google-Maps Configuration**
 ```bash
 touch config.js
 ```
 Example:
-```
+```javascript
 export default class Config {
     static get GOOGLE_MAPS_API_KEY() {
         return 'YOUR_GOOGLE_MAP_API_KEY';
     };
 
     static get DATA_STORE() {
-        return 'http://localhost:8000/data/restaurants.json';
+        return '/data/restaurants.json';
     };
 
     static get GOOGLE_MAPS_OPTIONS() {
@@ -44,17 +45,27 @@ export default class Config {
     }
 };
 ```
-**Development Mode**
+### Development Mode
 ```bash
-./local_server.sh // will start a local python server on port 8000
-or
 npm run start:dev
 ```
 
-**Deploy project**
+### Deploy project
 ```bash
 npm run build:prod
 ```
+
+#### Start a web server
+You can test deploy by running a local web server
+- with python
+
+    ```bash
+    ./local_server.sh
+    ```
+    > On Chrome the fetch request will hang some seconds
+
+- [web-server for chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)
+    > Don't forget to add the appropriate HTTP referrer in your Google-Api
 
 ### Dependencies
 - [normalize.css](http://necolas.github.io/normalize.css/)
@@ -69,3 +80,4 @@ npm run build:prod
 - [node-sass](https://sass-lang.com/)
 - [responsive-loader](https://github.com/herrstucki/responsive-loader)
 - [webpack](https://webpack.js.org/)
+- [webpack-merge](https://github.com/survivejs/webpack-merge) => Thanks to this [article](https://simonsmith.io/organising-webpack-config-environments/)

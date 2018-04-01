@@ -1,4 +1,4 @@
 import './scss/main.scss';
-import { initDetails } from './js/restaurant_info';
+import { initDetails } from './js/RestaurantInfo';
 
 initDetails();
