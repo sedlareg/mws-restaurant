@@ -46,21 +46,26 @@ export default class Config {
 };
 ```
 ### Development Mode
-
-#### webpack-dev-server
 ```bash
 npm run start:dev
-```
-
-#### python http.server
-```bash
-./local_server.sh
 ```
 
 ### Deploy project
 ```bash
 npm run build:prod
 ```
+
+#### Start a web server
+You can test deploy by running a local web server
+- with python
+
+    ```bash
+    ./local_server.sh
+    ```
+    > On Chrome the fetch request will hang some seconds
+
+- [web-server for chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)
+    > Don't forget to add the appropriate HTTP referrer in your Google-Api
 
 ### Dependencies
 - [normalize.css](http://necolas.github.io/normalize.css/)
@@ -75,3 +80,4 @@ npm run build:prod
 - [node-sass](https://sass-lang.com/)
 - [responsive-loader](https://github.com/herrstucki/responsive-loader)
 - [webpack](https://webpack.js.org/)
+- [webpack-merge](https://github.com/survivejs/webpack-merge) => Thanks to this [article](https://simonsmith.io/organising-webpack-config-environments/)

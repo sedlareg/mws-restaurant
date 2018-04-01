@@ -31,7 +31,6 @@ export default class RestaurantsList {
                 if (neighborhood !== 'all') { // filter by neighborhood
                     results = results.filter(element => element.neighborhood == neighborhood);
                 }
-                console.log(results);
                 resolve(results);
             })
     }
