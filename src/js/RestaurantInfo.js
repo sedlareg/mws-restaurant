@@ -30,11 +30,16 @@ export const loadGoogleApi = (restaurant) => {
 
 /**
  * Add restaurant name to the breadcrumb navigation menu
- * todo: add aria current
  */
 export const fillBreadcrumb = (restaurant) => {
     const breadcrumb = document.getElementById('breadcrumb');
     const li = document.createElement('li');
-    li.innerHTML = restaurant.name;
+    li.setAttribute('title', `Details page for restaurant: ${restaurant.name}`);
+    li.setAttribute('aria-current', 'page');
+    const link = document.createElement('a');
+    link.href = '#';
+    link.innerHTML = restaurant.name;
+    li.appendChild(link);
+
     breadcrumb.appendChild(li);
 };

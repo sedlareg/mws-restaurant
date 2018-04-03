@@ -1,8 +1,9 @@
-nav {
+.navigation {
   width: 100%;
   height: 80px;
   background-color: $nav-bg-color;
   text-align:center;
+  padding: 10px 0 0 0;
   h1 {
     margin: auto;
     a {
@@ -17,25 +18,106 @@ nav {
 
 .breadcrumb {
   width:  100%;
-  padding: 10px 40px 16px;
   list-style: none;
   background-color: $nav-breadcrumb-bg-color;
   font-size: $nav-breadcrumb-font-size;
   margin: 0;
+  overflow: hidden;
   li { /* Display list items side by side */
     display: inline;
+    &:first-child a {
+      padding-left: 10px;
+    }
+
+    &:nth-child(2) a {
+      background: $breadcrumb-lvl-2;
+    }
+
+    &:nth-child(2) a:after {
+      border-left-color: $breadcrumb-lvl-2;
+    }
+
+    &:nth-child(3) a {
+      background: $breadcrumb-lvl-3;
+    }
+
+    &:nth-child(3) a:after {
+      border-left-color: $breadcrumb-lvl-3;
+    }
+
+    &:nth-child(4) a {
+      background: $breadcrumb-lvl-4;
+    }
+
+    &:nth-child(4) a:after {
+      border-left-color: $breadcrumb-lvl-4;
+    }
+
+    &:nth-child(5) a {
+      background: $breadcrumb-lvl-5;
+    }
+
+    &:nth-child(5) a:after {
+      border-left-color: $breadcrumb-lvl-5;
+    }
+
+    &:last-child a {
+      background: transparent !important;
+      color: black;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    &:last-child a::after {
+      border: 0;
+    }
+
     a { /* Add a color to all links inside the list */
-      color: $nav-link-color;
+      color: white;
       text-decoration: none;
+      padding: 5px 0 5px 45px;
+      background: $breadcrumb-lvl-1-fallback; /* fallback color */
+      background: $breadcrumb-lvl-1;
+      position: relative;
+      display: block;
+      float: left;
+
       &:hover { /* Add a color on mouse-over */
-        color: $nav-hover-color;
+        background: $breadcrumb-lvl-hover;
         text-decoration: underline;
+        &:after {
+          border-left-color: $breadcrumb-lvl-hover !important;
+        }
+      }
+      &:before {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 50px solid transparent;
+        border-bottom: 50px solid transparent;
+        border-left: 30px solid $nav-breadcrumb-bg-color;
+        position: absolute;
+        top: 50%;
+        margin-top: -50px;
+        margin-left: 1px;
+        left: 100%;
+        z-index: 1;
+      }
+      &:after {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 50px solid transparent; /* Go big on the size, and let overflow hide */
+        border-bottom: 50px solid transparent;
+        border-left: 30px solid $breadcrumb-lvl-1;
+        position: absolute;
+        top: 50%;
+        margin-top: -50px;
+        left: 100%;
+        z-index: 2;
       }
     }
-  }
-  li+li:before { /* Add a symbol before/behind each list item */
-    padding: 8px;
-    color: $nav-list-item-color;
-    content: $nav-list-item-symbol;
   }
 }

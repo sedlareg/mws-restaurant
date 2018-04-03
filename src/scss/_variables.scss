@@ -27,7 +27,15 @@ $nav-breadcrumb-font-size: 17px;
 $nav-link-color: #0275d8;
 $nav-hover-color: #01447e;
 $nav-list-item-color: black;
-$nav-list-item-symbol: "/\00a0";
+$nav-list-item-symbol: ">>";
+
+$breadcrumb-lvl-1-fallback: brown;
+$breadcrumb-lvl-1: hsla(33,100%,35%,1);
+$breadcrumb-lvl-2: hsla(33,100%,45%,1);
+$breadcrumb-lvl-3: hsla(33,100%,55%,1);
+$breadcrumb-lvl-4: hsla(33,100%,65%,1);
+$breadcrumb-lvl-5: hsla(33,100%,75%,1);
+$breadcrumb-lvl-hover: hsla(240,100%,50%,1);
 
 $map-bg-color: #ccc;
 
