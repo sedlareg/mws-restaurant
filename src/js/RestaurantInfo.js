@@ -15,11 +15,10 @@ export const loadGoogleApi = (restaurant) => {
      * Initialize Google map, called from HTML.
      */
     const gml = new GoogleMapsLoader();
-    gml.load({
-        key: Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY",
-        libraries: ['places'],
-        mapOptions: Config.GOOGLE_MAPS_OPTIONS
-    })
+    gml.setOption('key', Config.GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY",);
+    gml.setOption('libraries', ['places']);
+    gml.setOption('mapOptions', Config.GOOGLE_MAPS_OPTIONS);
+    gml.load()
         .then(map => {
             window.map =map;
             fillBreadcrumb(restaurant);

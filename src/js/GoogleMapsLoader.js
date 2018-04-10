@@ -2,88 +2,60 @@ export default class GoogleMapsLoader {
     /**
      * @description Add script element to page and loads GoogleMap Api
      * @constructor
-     * @param {string} async - flag to set async loading
-     * @param {string} defer - flag to set defer
      */
-    constructor(async = true, defer = true) {
-        this.language = 'en';
-        this.region = 'US';
-        this.initializator = '__google_maps_api_provider_initializator__';
-        this.mapApiUrl = 'https://maps.googleapis.com/maps/api/js';
-        this.libraries = [];
-        this.businessApi = null;
-        this.key = null;
-        this.version = '3.27';
-        this.mapId = 'map';
-        this.mapOptions = {
-            zoom: 12,
-            center: {
-                lat: 40.722216,
-                lng: -73.987501
+    constructor() {
+        this.options = new Proxy(
+            {
+                businessApi: null,
+                initializator: '__google_maps_api_provider_initializator__',
+                isAsync: true,
+                isDefer: true,
+                key: null,
+                language: 'en',
+                libraries: [],
+                mapApiUrl: 'https://maps.googleapis.com/maps/api/js',
+                mapId: 'map',
+                mapOptions: {
+                    zoom: 12,
+                    center: {
+                        lat: 40.722216,
+                        lng: -73.987501
+                    },
+                    scrollwheel: false,
+                },
+                region: 'US',
+                version: '3.27',
             },
-            scrollwheel: false,
-        };
+            {
+                get(target, property) {
+                    return Reflect.get(...arguments);
+                },
+                set(target, property, value) {
+                    return Reflect.set(...arguments);
+                }
+            }
+        );
 
-        this.isAsync = async;
-        this.isDefer = defer;
         this.google = null;
         this.scriptElement = null;
         this.loading = false;
     }
 
-    get REGION() {
-        return this.region;
+    getOptions() {
+        console.log(this.options);
+        return this.options;
     }
 
-    set REGION(region) {
-        this.region = region;
+    getOption(key) {
+        console.log(this.options[key]);
+        return this.options[key];
     }
 
-    get LIBRARIES() {
-        return this.libraries;
+    setOption(key, value) {
+        this.options[key] = value;
     }
 
-    set LIBRARIES(libs) {
-        this.libraries = libs;
-    }
-
-    get BUSINESS_API() {
-        return this.businessApi;
-    }
-
-    set BUSINESS_API(key) {
-        this.businessApi = key;
-    }
-
-    get KEY() {
-        return this.key;
-    }
-
-    set KEY(key) {
-        this.key = key;
-    }
-
-    get VERSION() {
-        return this.version;
-    }
-
-    set VERSION(version) {
-        this.version = version;
-    }
-
-    get LANGUAGE() {
-        return this.language;
-    }
-
-    set LANGUAGE(language) {
-        this.language = language;
-    }
-
-    load(options) {
-        Object.entries(options).forEach(
-            ([key, value]) => this[key] = value
-        );
-
+    load() {
         let that = this;
         return new Promise(
             function (resolve, reject) {
@@ -91,7 +63,7 @@ export default class GoogleMapsLoader {
                     if(that.loading === false) {
                         that.loading = true;
                         that.appendLoaderToBody();
-                        window[that.initializator] = function () {
+                        window[that.options.initializator] = function () {
                             if(window.google === null){
                                 throw new Error('error loading google maps')
                             }
@@ -111,34 +83,38 @@ export default class GoogleMapsLoader {
     appendLoaderToBody() {
         this.scriptElement = document.createElement('script');
         this.scriptElement.src = this.createUrl();
-        if (this.isAsync) this.scriptElement.async = true; // not needed as async is set by default
-        if (this.isDefer) this.scriptElement.defer = true;
+        if (this.options.isAsync) this.scriptElement.async = true; // not needed as async is set by default
+        if (this.options.isDefer) this.scriptElement.defer = true;
+        this.scriptElement.onerror = this.onError;
         document.body.appendChild(this.scriptElement);
     }
 
+    onError() {
+        console.error('could not load google maps');
+    }
     /**
      * @description Creates GoogleMapApi URL for script
      * @returns {string}
      */
     createUrl() {
-        let url = this.mapApiUrl;
-        url += '?callback=' + this.initializator;
-        url += `&key=${this.key}`;
+        let url = this.options.mapApiUrl;
+        url += '?callback=' + this.options.initializator;
+        url += `&key=${this.options.key}`;
 
-        if (this.libraries.length > 0) {
-            url += '&_libraries=' + this.libraries.join(',');
+        if (this.options.libraries.length > 0) {
+            url += '&_libraries=' + this.options.libraries.join(',');
         }
 
-        if (this.businessApi) {
-            url += '&client=' + this.businessApi + '&v=' + this.version;
+        if (this.options.businessApi) {
+            url += '&client=' + this.options.businessApi + '&v=' + this.options.version;
         }
 
-        if (this.language) {
-            url += '&_language=' + this.language;
+        if (this.options.language) {
+            url += '&_language=' + this.options.language;
         }
 
-        if (this.region) {
-            url += '&_region=' + this.region;
+        if (this.options.region) {
+            url += '&_region=' + this.options.region;
         }
 
         return url;
@@ -162,9 +138,9 @@ export default class GoogleMapsLoader {
      * @returns {Map}
      */
     createMap() {
-        const map = document.getElementById(this.mapId);
+        const map = document.getElementById(this.options.mapId);
         map.style.display = 'block';
 
-       return new this.google.maps.Map(map, this.mapOptions);
+       return new this.google.maps.Map(map, this.options.mapOptions);
     }
 }
