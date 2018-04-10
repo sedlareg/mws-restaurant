@@ -27,7 +27,7 @@ module.exports = merge(
     {
         output: {
             path: buildFolder,
-            filename: 'js/[name].js'
+            filename: '[name].js'
         },
         plugins: [
             cleanWebpackPlugin,

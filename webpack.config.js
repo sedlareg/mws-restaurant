@@ -21,7 +21,7 @@ const PATHS = {
  *  PLUGIN IMPLEMENTATION
  */
 const overviewHtmlWebpackPlugin = new HtmlWebpackPlugin({
-    hash: true,
+    hash: false,
     inject: false,
     title: 'Restaurant Reviews',
     template: PATHS.overviewTemplate,
@@ -31,7 +31,7 @@ const overviewHtmlWebpackPlugin = new HtmlWebpackPlugin({
 });
 
 const detailsHtmlWebpackPlugin = new HtmlWebpackPlugin({
-    hash: true,
+    hash: false,
     inject: false,
     title: 'Restaurant Info',
     template: PATHS.detailTemplate,

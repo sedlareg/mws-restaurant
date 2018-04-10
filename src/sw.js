@@ -1,9 +1,9 @@
-const cacheVersion = 'mws-restaurant-stage1-v5';
+const cacheVersion = 'mws-restaurant-stage1-v12';
 const filesToCache = [
     '/',
     '/restaurant.html',
-    '/js/details.js',
-    '/js/main.js',
+    'details.js',
+    'main.js',
     '/styles/main.css',
     '/data/restaurants.json',
     '/img/1.jpg',
@@ -26,7 +26,6 @@ const filesToCache = [
     '/img/8.webp',
     '/img/9.webp',
     '/img/10.webp',
-
     '/img/1-medium.jpg',
     '/img/2-medium.jpg',
     '/img/3-medium.jpg',
@@ -47,7 +46,6 @@ const filesToCache = [
     '/img/8-medium.webp',
     '/img/9-medium.webp',
     '/img/10-medium.webp',
-
     '/img/1-large.jpg',
     '/img/2-large.jpg',
     '/img/3-large.jpg',
@@ -147,7 +145,7 @@ function claimClient(){
  */
 self.addEventListener('fetch', event => {
     console.log('[ServiceWorker] fetch:', event.request.url);
-    event.respondWith(fromCache(evt.request));
+    event.respondWith(fromCache(event.request));
 });
 
 /**
@@ -156,6 +154,6 @@ self.addEventListener('fetch', event => {
  */
 function fromCache(request) {
     return caches.open(cacheVersion)
-        .then(cache => cache.match(request)
-                .then(matching => matching || fetch(request)));
+        .then(cache => cache.match(request))
+        .then(matching => matching || fetch(request));
 }
