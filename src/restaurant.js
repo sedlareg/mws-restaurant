@@ -1,4 +1,18 @@
 import './scss/main.scss';
-import { initDetails } from './js/restaurant_info';
+import { initDetails } from './js/RestaurantInfo';
+
+/*
+Register the service worker
+*/
+if ('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js')
+        .then(registration => {
+            console.log("[ServiceWorker] registration completed", registration.scope);
+        }).catch(err => {
+        console.log("[ServiceWorker] registration failed", err);
+    });
+} else {
+    console.log("[ServiceWorker]  is not supported in this browser");
+}
 
 initDetails();

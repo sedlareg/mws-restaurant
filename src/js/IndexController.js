@@ -20,7 +20,7 @@ IndexController.prototype._registerServiceWorker = function () {
     let indexController = this;
 
     console.log('_registerServiceWorker2');
-    navigator.serviceWorker.register('http://localhost:8000/js/sw.js').then(function (reg) {
+    navigator.serviceWorker.register('/js/sw.js').then(function (reg) {
         console.log('_registerServiceWorker31: ', reg);
         console.log('_registerServiceWorker32: ', navigator.serviceWorker);
         if (!navigator.serviceWorker.controller) {

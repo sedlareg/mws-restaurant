@@ -1,12 +1,11 @@
 import './scss/main.scss';
-import { initHome } from './js/main';
+import { initHome } from './js/Main';
 
-initHome();
 /*
 Register the service worker
 */
 if ('serviceWorker' in navigator){
-    navigator.serviceWorker.register('/js/sw.js', {scope: './js/'})
+    navigator.serviceWorker.register('sw.js')
         .then(registration => {
             console.log("[ServiceWorker] registration completed", registration.scope);
     }).catch(err => {
@@ -15,3 +14,5 @@ if ('serviceWorker' in navigator){
 } else {
     console.log("[ServiceWorker]  is not supported in this browser");
 }
+
+initHome();

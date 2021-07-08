@@ -4,31 +4,24 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
  *  PATHS
  */
 const sourceFolder =  path.resolve(__dirname, 'src');
-const buildFolder = path.resolve(__dirname, 'dist');
 const PATHS = {
     overviewTemplate: path.join(sourceFolder, 'templates/index.html'),
     detailTemplate: path.join(sourceFolder, 'templates/restaurant.html'),
     mainEntry: path.join(sourceFolder, 'index.js'),
     detailsEntry: path.join(sourceFolder, 'restaurant.js'),
     swEntry: path.join(sourceFolder, 'sw.js'),
-    dataSource: path.join(sourceFolder, 'data'),
-    imgSource: path.join(sourceFolder, 'img'),
-    dataDest: path.join(buildFolder, 'data'),
-    imgDest: path.join(buildFolder, 'img'),
 };
 
 /**
  *  PLUGIN IMPLEMENTATION
  */
 const overviewHtmlWebpackPlugin = new HtmlWebpackPlugin({
-    hash: true,
+    hash: false,
     inject: false,
     title: 'Restaurant Reviews',
     template: PATHS.overviewTemplate,
@@ -38,7 +31,7 @@ const overviewHtmlWebpackPlugin = new HtmlWebpackPlugin({
 });
 
 const detailsHtmlWebpackPlugin = new HtmlWebpackPlugin({
-    hash: true,
+    hash: false,
     inject: false,
     title: 'Restaurant Info',
     template: PATHS.detailTemplate,
@@ -52,16 +45,6 @@ const extractSASS = new ExtractTextPlugin({
     allChunks: true
 });
 
-const cleanDIst = new CleanWebpackPlugin(['dist'], { watch: false, verbose: true});
-
-const copyWebpackPlugin = new CopyWebpackPlugin(
-    [
-        { from: PATHS.dataSource, to: PATHS.dataDest },
-        { from: PATHS.imgSource, to: PATHS.imgDest }
-    ],
-    { debug: 'info' }
-);
-
 /**
  * RULES AND EXPORT
  */
@@ -74,15 +57,6 @@ const entries = {
 module.exports = {
     context: __dirname,
     entry: entries,
-    output: {
-        path: buildFolder,
-        filename: 'js/[name].js'
-    },
-    watch: false,
-    devServer: {
-        inline: true,
-        port: 8000
-    },
     resolve: {
         modules: [
             'node_modules',
@@ -122,10 +96,8 @@ module.exports = {
         ]
     },
     plugins: [
-        cleanDIst,
         overviewHtmlWebpackPlugin,
         detailsHtmlWebpackPlugin,
         extractSASS,
-        copyWebpackPlugin,
     ]
 };
